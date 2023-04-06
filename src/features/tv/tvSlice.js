@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, isAsyncThunkAction } from "@reduxjs/toolkit"
 import axios from '../../helper/axios';
 import { requests } from "../../helper/requests";
 const initialState = {
@@ -12,8 +12,8 @@ const initialState = {
 export const fetchNetflixOriginals = createAsyncThunk(
     'tv/fetchNetflixOriginals',
     async () => {
-        const response = axios.get(requests.netflixOriginals)
-        console.log(response.data);
+        const response = await axios.get(requests.netflixOriginals)
+        return response.data;
     })
 
 
@@ -25,8 +25,21 @@ export const tvSlice = createSlice({
 
     },
     extraReducers:(builder)=>{
+        builder
+        .addCase(fetchNetflixOriginals.pending, (state) => {
+            state.nfOriginals.status = 'loading';
+        })
+        .addCase(fetchNetflixOriginals.fulfilled, (state, action)=>{
+            state.nfOriginals.status = "success";
+            state.nfOriginals.data = action.payload;
+        })
+        .addCase(fetchNetflixOriginals.rejected, (state, action)=>{
+            state.nfOriginals.status = "failed";
+            state.nfOriginals.error = action.error.message;
+        })
     }
 })
 
+export const selectNfOriginals = (state) => state.tv.nfOriginals;
 
 export default tvSlice.reducer;
