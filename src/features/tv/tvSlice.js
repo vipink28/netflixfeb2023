@@ -6,7 +6,8 @@ const initialState = {
         status: "idle",
         error: null,
         data: null
-    }
+    },
+
 }
 
 export const fetchNetflixOriginals = createAsyncThunk(
@@ -37,6 +38,7 @@ export const tvSlice = createSlice({
             state.nfOriginals.status = "failed";
             state.nfOriginals.error = action.error.message;
         })
+        
     }
 })
 
