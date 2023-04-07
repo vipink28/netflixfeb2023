@@ -11,20 +11,23 @@ import {
 } from "../features/movie/movieSlice";
 
 function Row(props) {
+  const { action, selector, title, type }= props;
   const dispatch = useDispatch();
-  const popularMovies = useSelector(selectPopularMovies);
-
+  const videoList = useSelector(selector);
   useEffect(() => {
-    dispatch(fetchPopularMovies());
+    dispatch(action(type));
   }, []);
+
   return (
+    <div className="py-3">
+      <h5>{title}</h5>
     <Swiper
       modules={[Navigation]}
       spaceBetween={20}
       slidesPerView={5}
       navigation
     >
-      {popularMovies.data?.results?.map((item) => {
+      {videoList.data?.results?.map((item) => {
         return (
           <SwiperSlide key={item.id}>
             <Card video={item}/>
@@ -32,6 +35,7 @@ function Row(props) {
         );
       })}
     </Swiper>
+    </div>
   );
 }
 
