@@ -21,7 +21,7 @@ function Homescreen(props) {
                 <Row selector={selectTopRatedMovies} action={fetchTopRatedMovies} title="Top Rated Movies" type={key.movie}/>
 
                 <Row selector={selectPopularTv} action={fetchPopularTv} title="Popular Shows" type={key.tv}/>
-
+        
             </div>
         </>
     );
