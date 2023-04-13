@@ -4,3 +4,7 @@ export const truncateText=(string="", limit)=>{
     }
     return string.slice(0, limit) + "..."
 }
+
+export const dateFormat = (date)=>{
+    return new Date(date).getFullYear();
+}

@@ -5,6 +5,7 @@ import { BrowserRouter,Routes, Route } from 'react-router-dom';
 import Homescreen from './pages/Homescreen';
 import Navigation from './components/Navigation';
 import Browse from './pages/Browse';
+import Popup from './components/Popup';
 
 function App() {
   return (
@@ -12,8 +13,9 @@ function App() {
     <Navigation />
       <Routes>
          <Route path='/' element={<Homescreen />}></Route>
-         <Route path='/browse' element={<Browse />}></Route>
+         <Route path='/browse/:platform' element={<Browse />}></Route>
       </Routes>
+      <Popup />
    </BrowserRouter>
   );
 }

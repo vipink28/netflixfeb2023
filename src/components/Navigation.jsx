@@ -15,10 +15,10 @@ function Navigation(props) {
           <Link className="nav-link active" aria-current="page" to="/">Home</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/browse">Movie</Link>
+          <Link className="nav-link" to="/browse/movie">Movie</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/browse">TV</Link>
+          <Link className="nav-link" to="/browse/tv">Tv</Link>
         </li>
         <li className="nav-item dropdown">
           <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

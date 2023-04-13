@@ -30,7 +30,7 @@ function Row(props) {
       {videoList.data?.results?.map((item) => {
         return (
           <SwiperSlide key={item.id}>
-            <Card video={item}/>
+            <Card video={item} type={type}/>
           </SwiperSlide>
         );
       })}
