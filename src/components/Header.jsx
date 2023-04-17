@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Ratings from "./Ratings";
 import { dateFormat, truncateText } from "../helper";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,11 +6,15 @@ import {
   fetchHeaderVideo,
   selectHeaderVideo,
 } from "../features/common/commonSlice";
+import VideoPlayer from "./VideoPlayer";
 
 function Header(props) {
   const { video } = props;
   const details = useSelector(selectHeaderVideo);
   const dispatch = useDispatch();
+
+  const [showVideo, setShowVideo] = useState(false);
+  const [trailerKey, setTrailerKey] = useState('');
 
   useEffect(() => {
     if (video) {
@@ -18,8 +22,27 @@ function Header(props) {
     }
   }, [video]);
 
+  useEffect(()=>{
+    if(details){
+        const arr = details.data?.videos.results;
+        if(arr && arr.length > 0){
+            const filteredArr = arr.filter((item)=>{
+                return item.type === 'Trailer'
+            })
+            setTrailerKey(filteredArr[0].key)
+        }      
+    }
+  }, [details])
+
+  const handleVideo = ()=>{
+    setShowVideo(true);
+  }
+
   return (
     <div className="position-relative h-100 text-white">
+    
+    {
+        !showVideo ? <>
       <img
         className="header-img"
         src={`https://image.tmdb.org/t/p/original/${video?.backdrop_path}`}
@@ -64,7 +87,13 @@ function Header(props) {
           voteAverage={details.data?.vote_average}
           voteCount={details.data?.vote_count}
         />
-      </div>
+
+        <button className="btn btn-danger mt-3 me-2" onClick={handleVideo}>Play</button>
+        <button className="btn btn-warning mt-3">More Info</button>
+
+      </div> 
+      </> : <VideoPlayer videoId={trailerKey}/>
+        }
       <div className="header-vignette"></div>
       <div className="header-bottom-vignette"></div>
     </div>

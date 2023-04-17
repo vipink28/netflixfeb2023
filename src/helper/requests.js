@@ -5,7 +5,8 @@ export const requests = {
     getPopular: (type)=>{return `/${type}/popular?api_key=${API_KEY}&language=en-US&page=1`},    
     getTopRated: (type)=>{return `/${type}/top_rated?api_key=${API_KEY}&language=en-US&page=1`},
     getDetails: (req)=>{return `/${req.type}/${req.id}?api_key=${API_KEY}&language=en-US&append_to_response=videos`},
-    discoverByRating: (type)=>{return `/discover/${type}?api_key=${API_KEY}&language=en-US&vote_average.gte=4&page=1`}
+    discoverByRating: (type)=>{return `/discover/${type}?api_key=${API_KEY}&language=en-US&vote_average.gte=4&page=1`},
+    getSimilar: (id, type)=>{return `/${type}/${id}/similar?api_key=${API_KEY}&language=en-US&page=1`}
 
 
 }

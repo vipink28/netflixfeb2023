@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { fetchVideoDetails } from "../features/common/commonSlice";
+import { fetchVideoDetails, platform } from "../features/common/commonSlice";
 import { truncateText } from "../helper";
 import Ratings from "./Ratings";
 
@@ -8,7 +8,8 @@ function Card(props) {
   const {video, type} = props;
   const dispatch = useDispatch();
   const getDetails=()=>{
-    dispatch(fetchVideoDetails({type: type, id: video.id}))
+    dispatch(fetchVideoDetails({type: type, id: video.id}));
+    dispatch(platform(type));
   }
   return (
     <div className="card h-100" data-bs-toggle="modal" data-bs-target="#videoDetails" onClick={getDetails}>

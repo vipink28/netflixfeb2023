@@ -11,7 +11,8 @@ const initialState = {
     status: "idle",
     error: null,
     data: null,
-  }
+  },
+  type: ''
 };
 
 export const fetchHeaderVideo = createAsyncThunk(
@@ -34,7 +35,11 @@ export const fetchVideoDetails = createAsyncThunk(
 export const commonSlice = createSlice({
   name: "common",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    platform: (state, action)=>{
+      state.type = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchHeaderVideo.pending, (state) => {
@@ -62,7 +67,11 @@ export const commonSlice = createSlice({
   },
 });
 
+export const {platform} = commonSlice.actions;
+
+
 export const selectHeaderVideo = (state) => state.common.headerVideo;
 export const selectVideoDetails = (state) => state.common.videoDetails;
+export const selectPlatform = (state) => state.common.type;
 
 export default commonSlice.reducer;
