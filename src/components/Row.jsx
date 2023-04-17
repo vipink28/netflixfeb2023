@@ -19,8 +19,8 @@ function Row(props) {
   }, []);
 
   return (
-    <div className="py-3">
-      <h5>{title}</h5>
+    <div className="py-3 video-row">
+      <h3 className="mb-3">{title}</h3>
     <Swiper
       modules={[Navigation]}
       spaceBetween={20}

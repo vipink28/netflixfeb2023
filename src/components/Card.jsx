@@ -1,7 +1,8 @@
 import React from "react";
-import gladiator from '../assets/header.webp';
 import { useDispatch } from "react-redux";
 import { fetchVideoDetails } from "../features/common/commonSlice";
+import { truncateText } from "../helper";
+import Ratings from "./Ratings";
 
 function Card(props) {
   const {video, type} = props;
@@ -14,7 +15,9 @@ function Card(props) {
       <div class="card">
         <img src={`https://image.tmdb.org/t/p/original/${video?.backdrop_path}`} class="card-img-top" alt="..." />
         <div class="card-body">
-          <h5 class="card-title">{video?.name || video?.title || video?.original_title}</h5>        
+          <h5 class="card-title">{video?.name || video?.title || video?.original_title}</h5>
+          <p>{truncateText(video?.overview, 60)}</p>
+          <Ratings voteAverage={video?.vote_average} voteCount={video?.vote_count}/>
         </div>
       </div>
     </div>

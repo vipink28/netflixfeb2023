@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectVideoDetails } from "../features/common/commonSlice";
-import { dateFormat } from "../helper";
+import { dateFormat, numToTime } from "../helper";
 
 function Popup(props) {
   const { data } = useSelector(selectVideoDetails);
@@ -44,7 +44,7 @@ function Popup(props) {
 
             {
               data?.runtime ?
-              <p>{data?.runtime}</p> : <p>{data?.episode_run_time}</p>
+              <p>{numToTime(data?.runtime)}</p> : <p>{numToTime(data?.episode_run_time)}</p>
             }
             </div>
             <div className="py-2">
@@ -53,9 +53,7 @@ function Popup(props) {
                   return <span key={item.id} className="badge text-bg-danger p-2 me-2">{item.name}</span>
                 })
               }
-            </div>
-
-            
+            </div>            
           </div>
         </div>
       </div>
