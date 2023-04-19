@@ -1,32 +1,60 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectPlatform, selectVideoDetails } from "../features/common/commonSlice";
+import {
+  selectPlatform,
+  selectVideoDetails,
+} from "../features/common/commonSlice";
 import { dateFormat, numToTime } from "../helper";
 import VideoPlayer from "./VideoPlayer";
 import { requests } from "../helper/requests";
-import axios from '../helper/axios';
+import axios from "../helper/axios";
+import Card from "./Card";
+import { Link } from "react-router-dom";
+import GenreLink from "./GenreLink";
 
 function Popup(props) {
   const { data } = useSelector(selectVideoDetails);
   const type = useSelector(selectPlatform);
 
   const [similarVideos, setSimilarVideos] = useState();
+  const [recommendedVideos, setRecommendedVideos] = useState();
+  const [credits, setCredits] = useState();
+  const [showVideo, setShowVideo] = useState(false);
 
-  useEffect(()=>{
-    const getSimilarVideos = async()=>{
+  useEffect(() => {
+    const getSimilarVideos = async () => {
       const response = await axios.get(requests.getSimilar(data.id, type));
       setSimilarVideos(response.data.results);
-    }
+    };
 
-    if(data && type){
+    const getRecommendedVideos = async () => {
+      const response = await axios.get(requests.getRecommended(data.id, type));
+      setRecommendedVideos(response.data.results);
+    };
+
+    const getVideoCredits = async () => {
+      const response = await axios.get(requests.getCredits(data.id, type));
+      setCredits(response.data);
+    };
+
+    if (data && type) {
       getSimilarVideos();
+      getRecommendedVideos();
+      getVideoCredits();
+      setShowVideo(true);
     }
-  }, [data, type])
 
+  }, [data, type]);
+
+  const closePopup=()=>{
+    setShowVideo(false);
+  }
 
   return (
     <div className="modal" tabIndex="-1" id="videoDetails">
       <div className="modal-dialog">
+        {
+        data ?         
         <div className="modal-content">
           <div className="modal-header border-bottom-0">
             <button
@@ -34,11 +62,12 @@ function Popup(props) {
               className="btn-close btn-close-white"
               data-bs-dismiss="modal"
               aria-label="Close"
+              onClick={closePopup}
             ></button>
           </div>
           <div className="modal-body">
-            {data?.videos.results[0]?.key && (
-              <VideoPlayer videoId={data?.videos.results[0]?.key} />
+            {data?.videos.results[0]?.key && showVideo && (
+              <VideoPlayer videoList={data?.videos.results} />
             )}
 
             <div className="p-3">
@@ -65,28 +94,41 @@ function Popup(props) {
                   <div className="py-2">
                     {data?.genres.map((item) => {
                       return (
-                        <span
-                          key={item.id}
-                          className="badge text-bg-danger p-2 me-2"
-                        >
-                          {item.name}
-                        </span>
+                       <GenreLink genre={item} type={type}/>
                       );
                     })}
                   </div>
                 </div>
               </div>
+              
+              <div className="row gy-3">
+                <h3>Similar {type === "tv" ? "Shows": "Movies"}</h3>
+                {similarVideos?.map((item, index) => {          
+                  return (
+                    index < 6 ? 
+                    <div key={item.id} className="col-lg-4">
+                    <Card video={item} type={type} />
+                    </div> : ""
+                  )
+                })}
+              </div>
 
-              <div className="row">
-                <div className="col-lg-4">
-
-                </div>
-              </div>        
-
+              <div className="row gy-3 mt-5">
+                <h3>Recommended {type === "tv" ? "Shows": "Movies"}</h3>
+                {recommendedVideos?.map((item, index) => {          
+                  return (
+                    index < 6 ? 
+                    <div key={item.id} className="col-lg-4">
+                    <Card video={item} type={type} />
+                    </div> : ""
+                  )
+                })}
+              </div>
 
             </div>
           </div>
-        </div>
+        </div> : ""
+        }
       </div>
     </div>
   );

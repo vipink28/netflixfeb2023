@@ -20,6 +20,9 @@ function Navigation(props) {
         <li className="nav-item">
           <Link className="nav-link" to="/browse/tv">Tv</Link>
         </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/browsebygenre/movie/Action/28">Browse By Genre</Link>
+        </li>
         <li className="nav-item dropdown">
           <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown

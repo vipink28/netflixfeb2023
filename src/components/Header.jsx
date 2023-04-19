@@ -7,30 +7,25 @@ import {
   selectHeaderVideo,
 } from "../features/common/commonSlice";
 import VideoPlayer from "./VideoPlayer";
+import GenreLink from "./GenreLink";
 
 function Header(props) {
-  const { video } = props;
+  const { video, type } = props;
   const details = useSelector(selectHeaderVideo);
   const dispatch = useDispatch();
 
   const [showVideo, setShowVideo] = useState(false);
-  const [trailerKey, setTrailerKey] = useState('');
+  const [trailer, setTrailer] = useState();
 
   useEffect(() => {
     if (video) {
-      dispatch(fetchHeaderVideo({ type: "tv", id: video?.id }));
+      dispatch(fetchHeaderVideo({ type: type, id: video?.id }));
     }
   }, [video]);
 
   useEffect(()=>{
     if(details){
-        const arr = details.data?.videos.results;
-        if(arr && arr.length > 0){
-            const filteredArr = arr.filter((item)=>{
-                return item.type === 'Trailer'
-            })
-            setTrailerKey(filteredArr[0].key)
-        }      
+      setTrailer(details.data?.videos.results);
     }
   }, [details])
 
@@ -42,7 +37,7 @@ function Header(props) {
     <div className="position-relative h-100 text-white">
     
     {
-        !showVideo ? <>
+      !showVideo ? <>
       <img
         className="header-img"
         src={`https://image.tmdb.org/t/p/original/${video?.backdrop_path}`}
@@ -73,12 +68,7 @@ function Header(props) {
         <p>
           {details.data?.genres.map((item) => {
             return (
-              <span
-                key={item.id}
-                className="badge text-bg-danger fs-6 p-2 me-2 fw-normal"
-              >
-                {item.name}
-              </span>
+             <GenreLink genre={item} type={type}/>
             );
           })}
         </p>
@@ -92,7 +82,7 @@ function Header(props) {
         <button className="btn btn-warning mt-3">More Info</button>
 
       </div> 
-      </> : <VideoPlayer videoId={trailerKey}/>
+      </> : <VideoPlayer videoList={trailer}/>
         }
       <div className="header-vignette"></div>
       <div className="header-bottom-vignette"></div>

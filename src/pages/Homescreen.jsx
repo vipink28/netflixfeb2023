@@ -14,7 +14,7 @@ function Homescreen(props) {
     const random = Math.floor(Math.random() * nfOriginals.data?.results.length);
     return (
         <>
-            <Header video={nfOriginals.data?.results[random]} />
+            <Header video={nfOriginals.data?.results[random]} type="tv" />
             <div className='container-fluid py-3'>
                 <Row selector={selectPopularMovies} action={fetchPopularMovies} title="Popular Movies" type={key.movie} />
 

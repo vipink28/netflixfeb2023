@@ -1,6 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-function VideoPlayer({ videoId }) {
+function VideoPlayer({ videoList }) {
+  const [videoId, setVideoId]=useState('');
+  useEffect(()=>{
+        if(videoList && videoList.length > 0){
+            const filteredArr = videoList.filter((item)=>{
+                return item.type === 'Trailer'
+            })
+            setVideoId(filteredArr[0].key)
+        }
+  }, [videoList])
+
+
+
   return (
     <div class="ratio ratio-16x9 youtube-player">
       <iframe
