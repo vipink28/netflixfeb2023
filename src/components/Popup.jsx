@@ -9,7 +9,6 @@ import VideoPlayer from "./VideoPlayer";
 import { requests } from "../helper/requests";
 import axios from "../helper/axios";
 import Card from "./Card";
-import { Link } from "react-router-dom";
 import GenreLink from "./GenreLink";
 
 function Popup(props) {

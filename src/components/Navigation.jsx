@@ -1,7 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { searchText } from '../features/common/commonSlice';
+import { useDispatch } from 'react-redux';
 
 function Navigation(props) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSearch=(e)=>{
+    const {value}=e.target;
+    if(value.length > 3){
+      dispatch(searchText(value));
+      navigate(`/search?${value}`);
+    }
+  }
+
     return (
   <nav className="navbar navbar-expand-lg fixed-top">
   <div className="container-fluid">
@@ -32,9 +44,7 @@ function Navigation(props) {
             <li><Link className="dropdown-item" to="#">Another action</Link></li>           
           </ul>
         </li>
-        <li className="nav-item">
-          <Link className="nav-link disabled">Disabled</Link>
-        </li>
+        <input type="text" name='search' onChange={handleSearch}/>
       </ul>      
     </div>
   </div>

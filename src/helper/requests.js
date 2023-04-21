@@ -9,7 +9,9 @@ export const requests = {
     getSimilar: (id, type)=>{return `/${type}/${id}/similar?api_key=${API_KEY}&language=en-US&page=1`},
     getRecommended: (id, type)=>{return `/${type}/${id}/recommendations?api_key=${API_KEY}&language=en-US&page=1`},
     getCredits: (id, type)=>{return `/${type}/${id}/credits?api_key=${API_KEY}&language=en-US&page=1`},
-    getByGenre: (id, type)=>{return `/discover/${type}?api_key=${API_KEY}&language=en-US&page=1&with_genres=${id}`}
+    getByGenre: (id, type)=>{return `/discover/${type}?api_key=${API_KEY}&language=en-US&page=1&with_genres=${id}`},
+    getGenre: (type)=>{return `/genre/${type}/list?api_key=${API_KEY}`},    
+    searchVideo: (query)=>{return `/search/movie?api_key=${API_KEY}&language=en-US&query=${query}`}
 }
 
 
